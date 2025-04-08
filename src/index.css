@@ -20,3 +20,8 @@
 * {
 	box-sizing: border-box;
 }
+
+html{
+	background-color: var(--color-gray-600);
+	overflow-x: hidden;
+}

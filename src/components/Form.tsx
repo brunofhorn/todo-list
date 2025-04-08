@@ -1,7 +1,29 @@
 import { PlusCircle } from "@phosphor-icons/react";
+import { useState } from "react";
+import { Task } from "./Task";
 
+interface FormProps {
+    onAddNewTask: (task: Task) => void;
+}
 
-export function Form() {
+export function Form({ onAddNewTask }: FormProps) {
+    const [inputTaskText, setInputTaskText] = useState<string>("");
+
+    const handleSubmit = () => {
+        if (!inputTaskText) {
+            return;
+        }
+
+        const newTask: Task = {
+            id: new Date().getTime(),
+            text: inputTaskText,
+            taskCompleted: false,
+        };
+
+        setInputTaskText('');
+        onAddNewTask(newTask);
+    };
+
     return (
         <form className="flex flex-row gap-2 -mt-7 w-full">
             <input
@@ -20,6 +42,8 @@ export function Form() {
                     focus:ring-purple-dark
                 "
                 placeholder="Adicione uma nova tarefa"
+                value={inputTaskText}
+                onChange={(e) => setInputTaskText(e.target.value)}
             />
             <button
                 className="
@@ -39,7 +63,8 @@ export function Form() {
                     cursor-pointer 
                     hover:bg-blue
                 "
-                type="submit"
+                type="button"
+                onClick={() => handleSubmit()}
             >
                 Criar
                 <PlusCircle size={18} />
