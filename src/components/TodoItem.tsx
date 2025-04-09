@@ -19,20 +19,11 @@ export function TodoItem({ data, onRemoveTask, onToggleTask }: TodoItemProps) {
     return (
         <motion.li
             layout
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-            className={`
-                flex 
-                flex-row 
-                gap-3 
-                items-start 
-                justify-between 
-                bg-gray-500 border 
-                border-gray-400 rounded-lg p-4 w-full
-                transition-all duration-300
-                }`}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            className="flex flex-row gap-3 items-start justify-between bg-gray-500 border border-gray-400 rounded-lg p-4 w-full transition-all duration-300"
         >
             <div className='w-6'>
                 <button onClick={() => onToggleTask(data.id)} className='cursor-pointer'>
@@ -40,7 +31,7 @@ export function TodoItem({ data, onRemoveTask, onToggleTask }: TodoItemProps) {
                 </button>
             </div>
             <span className={`text-left w-full ${data.taskCompleted ? "text-gray-300 line-through" : "text-gray-100"}`}>{data.text}</span>
-            <button onClick={() => onRemoveTask(data.id)} className="text-gray-300 hover:text-danger hover:bg-gray-400 rounded-sm p-1.5 cursor-pointer transition">
+            <button onClick={()=>onRemoveTask(data.id)} className="text-gray-300 hover:text-danger hover:bg-gray-400 rounded-sm p-1.5 cursor-pointer transition">
                 <Trash size={20} />
             </button>
         </motion.li>

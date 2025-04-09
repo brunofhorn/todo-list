@@ -3,13 +3,17 @@ import { Form } from './components/Form';
 import { Header } from './components/Header';
 import { TodoList } from './components/TodoList';
 import { TodoItem } from './components/TodoItem';
-import { v4 as uuidv4 } from 'uuid';
+import { getTasksFromLocalStorage, saveTasksToLocalStorage } from './functions/manageLocalStorage';
 
 function App() {
   const [tasks, setTasks] = useState<TodoItem[]>([]);
 
   const handleAddNewTask = (newTask: TodoItem) => {
     setTasks((state) => [...state, newTask]);
+
+    const currentTasks = getTasksFromLocalStorage();
+    const updatedTasks = [...currentTasks, newTask];
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   const handleToggleTask = (id: string) => {
@@ -22,25 +26,25 @@ function App() {
     });
 
     setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   const handleRemoveTask = (id: string) => {
-    const filteredTasks = tasks.filter((task) => task.id !== id)
+    const filteredTasks = tasks.filter((task) => task.id !== id);
 
     if (!confirm('Deseja mesmo apagar essa tarefa?')) {
-      return
+      return;
     }
 
-    setTasks(filteredTasks)
-  }
+    setTasks(filteredTasks);
+    const currentTasks = getTasksFromLocalStorage();
+    const updatedTasks = currentTasks.filter(task => task.id !== id);
+    saveTasksToLocalStorage(updatedTasks);
+  };
 
   useEffect(() => {
-    setTasks([
-      { id: uuidv4(), text: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer. Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.', taskCompleted: false },
-      { id: uuidv4(), text: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.', taskCompleted: false },
-      { id: uuidv4(), text: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.', taskCompleted: false },
-      { id: uuidv4(), text: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.', taskCompleted: true },
-    ]);
+    const storedTasks = getTasksFromLocalStorage();
+    setTasks(storedTasks);
   }, []);
 
   return (
