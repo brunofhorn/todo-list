@@ -1,10 +1,10 @@
 import { PlusCircle } from "@phosphor-icons/react";
 import { useState } from "react";
-import { Task } from "./Task";
+import { TodoItem } from "./TodoItem";
 import { v4 as uuidv4 } from 'uuid';
 
 interface FormProps {
-    onAddNewTask: (task: Task) => void;
+    onAddNewTask: (task: TodoItem) => void;
 }
 
 export function Form({ onAddNewTask }: FormProps) {
@@ -15,7 +15,7 @@ export function Form({ onAddNewTask }: FormProps) {
             return;
         }
 
-        const newTask: Task = {
+        const newTask: TodoItem = {
             id: uuidv4(),
             text: inputTaskText,
             taskCompleted: false,

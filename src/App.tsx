@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Form } from './components/Form';
 import { Header } from './components/Header';
-import { ListTask } from './components/ListTask';
-import { Task } from './components/Task';
+import { TodoList } from './components/TodoList';
+import { TodoItem } from './components/TodoItem';
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<TodoItem[]>([]);
 
-  const handleAddNewTask = (newTask: Task) => {
+  const handleAddNewTask = (newTask: TodoItem) => {
     setTasks((state) => [...state, newTask]);
   };
 
@@ -48,7 +48,7 @@ function App() {
       <Header />
       <div className='flex flex-col gap-12 justify-center items-center w-full max-w-[1024px] mx-auto px-3'>
         <Form onAddNewTask={handleAddNewTask} />
-        <ListTask tasks={tasks} onToggleTask={handleToggleTask} onRemoveTask={handleRemoveTask} />
+        <TodoList tasks={tasks} onToggleTask={handleToggleTask} onRemoveTask={handleRemoveTask} />
       </div>
     </div>
   );
